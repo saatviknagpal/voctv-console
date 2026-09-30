@@ -6,6 +6,7 @@ BUILD_DIR="${BUILD_DIR:-build}"
 cmake -S . -B "$BUILD_DIR" -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build "$BUILD_DIR"
 rm -rf dist && mkdir -p dist/voctv-console
-cp "$BUILD_DIR/voctv-console" README.md dist/voctv-console/
-tar -C dist -czf voctv-console-linux-x86_64.tar.gz voctv-console
+install -m 755 "$BUILD_DIR/voctv-console" dist/voctv-console/
+install -m 644 README.md dist/voctv-console/
+tar -C dist --mode="u+rwX,go+rX" -czf voctv-console-linux-x86_64.tar.gz voctv-console
 echo "Packaged voctv-console-linux-x86_64.tar.gz"

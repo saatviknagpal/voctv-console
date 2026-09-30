@@ -1,4 +1,3 @@
-// src/ui/VolumeView.cpp
 #include "ui/VolumeView.h"
 #include <QLabel>
 #include <QLinearGradient>

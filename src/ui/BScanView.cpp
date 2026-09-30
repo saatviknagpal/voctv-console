@@ -1,4 +1,3 @@
-// src/ui/BScanView.cpp
 #include "ui/BScanView.h"
 #include <QMouseEvent>
 #include <QPainter>

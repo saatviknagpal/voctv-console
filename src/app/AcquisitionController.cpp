@@ -1,4 +1,3 @@
-// src/app/AcquisitionController.cpp
 #include "app/AcquisitionController.h"
 
 namespace voctv {

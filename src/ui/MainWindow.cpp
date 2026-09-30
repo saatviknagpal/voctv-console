@@ -1,4 +1,3 @@
-// src/ui/MainWindow.cpp
 #include "ui/MainWindow.h"
 #include <QComboBox>
 #include <QDateTime>

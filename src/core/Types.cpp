@@ -1,4 +1,3 @@
-// src/core/Types.cpp
 #include "core/Types.h"
 
 namespace voctv {

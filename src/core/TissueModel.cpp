@@ -1,4 +1,3 @@
-// src/core/TissueModel.cpp
 #include "core/TissueModel.h"
 #include <algorithm>
 #include <cmath>

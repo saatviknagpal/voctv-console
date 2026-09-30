@@ -1,4 +1,3 @@
-// src/app/AcquisitionController.h
 #pragma once
 #include <QObject>
 #include <QThread>

@@ -1,4 +1,3 @@
-// src/device/IDevice.h
 #pragma once
 #include <QObject>
 #include "core/Types.h"

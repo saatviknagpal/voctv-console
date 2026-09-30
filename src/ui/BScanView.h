@@ -1,4 +1,3 @@
-// src/ui/BScanView.h
 #pragma once
 #include <QImage>
 #include <QWidget>

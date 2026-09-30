@@ -1,4 +1,3 @@
-// src/core/Types.h
 #pragma once
 #include <QMetaType>
 #include <QPoint>

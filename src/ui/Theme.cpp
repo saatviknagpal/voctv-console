@@ -1,4 +1,3 @@
-// src/ui/Theme.cpp
 #include "ui/Theme.h"
 #include <QApplication>
 #include <QPalette>

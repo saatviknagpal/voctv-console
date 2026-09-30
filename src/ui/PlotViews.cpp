@@ -1,4 +1,3 @@
-// src/ui/PlotViews.cpp
 #include "ui/PlotViews.h"
 #include <QLineSeries>
 #include <QLogValueAxis>

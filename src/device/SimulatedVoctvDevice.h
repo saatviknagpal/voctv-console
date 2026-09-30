@@ -1,4 +1,3 @@
-// src/device/SimulatedVoctvDevice.h
 #pragma once
 #include "core/TissueModel.h"
 #include "device/IDevice.h"

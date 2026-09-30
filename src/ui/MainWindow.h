@@ -1,4 +1,3 @@
-// src/ui/MainWindow.h
 #pragma once
 #include <QElapsedTimer>
 #include <QMainWindow>

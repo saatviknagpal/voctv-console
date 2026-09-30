@@ -1,4 +1,3 @@
-// src/ui/VolumeView.h
 #pragma once
 #include <QWidget>
 

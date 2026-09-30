@@ -1,4 +1,3 @@
-// src/device/SimulatedVoctvDevice.cpp
 #include "device/SimulatedVoctvDevice.h"
 #include <QTimer>
 #include <cmath>

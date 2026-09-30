@@ -1,4 +1,3 @@
-// src/core/TissueModel.h
 #pragma once
 #include "core/Types.h"
 

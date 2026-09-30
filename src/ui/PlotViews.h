@@ -1,4 +1,3 @@
-// src/ui/PlotViews.h
 #pragma once
 #include <QChartView>
 #include "core/Types.h"

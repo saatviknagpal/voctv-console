@@ -1,4 +1,3 @@
-// src/data/DataStore.cpp
 #include "data/DataStore.h"
 #include <QDataStream>
 #include <QDir>

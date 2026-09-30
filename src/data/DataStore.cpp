@@ -12,6 +12,12 @@ namespace voctv {
 void DataStore::recordBscan(const BScanFrame &f, bool intoVolume) {
     latest_ = f;
     if (!intoVolume) return;
+    // A volume must have one frame size; a resize mid-acquisition restarts it.
+    for (const auto &v : volume_)
+        if (!v.data.isEmpty() && (v.width != f.width || v.height != f.height)) {
+            volume_.clear();
+            break;
+        }
     if (volume_.size() != params_.volumeSlices) volume_.resize(params_.volumeSlices);
     if (f.index >= 0 && f.index < volume_.size()) volume_[f.index] = f;
 }

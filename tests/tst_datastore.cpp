@@ -20,6 +20,19 @@ static DataStore populated() {
 class TstDataStore : public QObject {
     Q_OBJECT
 private slots:
+    void resizedVolumeRestartsAndStaysLoadable() {
+        DataStore s = populated();  // 3 slices of 32x40
+        AcquisitionParams p = s.params(); p.depthPixels = 64;  // depth changed mid-volume
+        s.setParams(p);
+        s.recordBscan(TissueModel(1).bscan(p, 3, 3), true);
+        QCOMPARE(s.filledVolumeSlices(), 1);  // stale-size slices were discarded
+        QTemporaryDir dir;
+        QVERIFY(s.save(dir.path()).isEmpty());
+        DataStore b;
+        const QString err = b.load(dir.path());
+        QVERIFY2(err.isEmpty(), qPrintable(err));
+        QCOMPARE(b.filledVolumeSlices(), 1);
+    }
     void roundTrip() {
         const DataStore a = populated();
         QTemporaryDir dir;

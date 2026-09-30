@@ -13,7 +13,7 @@ AcquisitionController::AcquisitionController(IDevice *device, QObject *parent)
     connect(device_, &IDevice::bscanReady, this, &AcquisitionController::onDeviceBscan);
     connect(device_, &IDevice::vibrationReady, this, &AcquisitionController::vibrationReady);
     connect(device_, &IDevice::tuningPointReady, this, &AcquisitionController::tuningPointReady);
-    connect(device_, &IDevice::acquisitionFinished, this, &AcquisitionController::acquisitionFinished);
+    connect(device_, &IDevice::acquisitionFinished, this, &AcquisitionController::onDeviceFinished);
     connect(device_, &IDevice::stateChanged, this, &AcquisitionController::stateChanged);
     connect(device_, &IDevice::error, this, &AcquisitionController::error);
     thread_.start();
@@ -34,12 +34,18 @@ void AcquisitionController::disconnectDevice() { onDevice([d = device_] { d->dis
 void AcquisitionController::configure(const AcquisitionParams &p) { onDevice([d = device_, p] { d->configure(p); }); }
 void AcquisitionController::start(Mode mode) {
     pending_.reset();
+    lossless_ = mode == Mode::Volume;
     onDevice([d = device_, mode] { d->startAcquisition(mode); });
 }
 void AcquisitionController::stop() { onDevice([d = device_] { d->stop(); }); }
 void AcquisitionController::simulateFault() { onDevice([d = device_] { d->simulateFault(); }); }
 
 void AcquisitionController::onDeviceBscan(const BScanFrame &frame) {
+    if (lossless_) {  // every volume slice matters: deliver in order, never coalesce
+        deliverPending();
+        emit bscanReady(frame);
+        return;
+    }
     if (pending_) ++dropped_;  // an undelivered frame is being replaced: latest wins
     pending_ = frame;
     if (!deliveryScheduled_) {
@@ -54,6 +60,11 @@ void AcquisitionController::deliverPending() {
     BScanFrame frame = std::move(*pending_);
     pending_.reset();
     emit bscanReady(frame);
+}
+
+void AcquisitionController::onDeviceFinished(Mode mode) {
+    deliverPending();  // the final frame must reach the GUI before "finished"
+    emit acquisitionFinished(mode);
 }
 
 }  // namespace voctv

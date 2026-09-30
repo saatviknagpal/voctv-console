@@ -37,6 +37,26 @@ private slots:
             QTRY_VERIFY_WITH_TIMEOUT(!st.isEmpty() && st.last().first().value<DeviceState>() == DeviceState::Connected, 3000);
         }
     }
+    void volumeDeliversEverySliceBeforeFinished() {
+        AcquisitionController c(new SimulatedVoctvDevice);
+        AcquisitionParams p = small(); p.volumeSlices = 12;
+        QVector<int> indices;
+        bool finishedSeen = false, sliceAfterFinish = false;
+        connect(&c, &AcquisitionController::bscanReady, this, [&](const BScanFrame &f) {
+            indices.append(f.index);
+            if (finishedSeen) sliceAfterFinish = true;
+        });
+        QSignalSpy done(&c, &AcquisitionController::acquisitionFinished);
+        connect(&c, &AcquisitionController::acquisitionFinished, this, [&] { finishedSeen = true; });
+        c.connectDevice(); c.configure(p); c.start(Mode::Volume);
+        QThread::msleep(500);  // a busy GUI thread: the device produces every slice meanwhile
+        QVERIFY(done.wait(3000));
+        QCoreApplication::processEvents();
+        QCOMPARE(indices.size(), 12);
+        for (int i = 0; i < indices.size(); ++i) QCOMPARE(indices[i], i);
+        QVERIFY(!sliceAfterFinish);
+        QCOMPARE(c.droppedFrames(), 0);
+    }
     void destroyWhileAcquiring() {
         auto *c = new AcquisitionController(new SimulatedVoctvDevice);
         QSignalSpy spy(c, &AcquisitionController::bscanReady);

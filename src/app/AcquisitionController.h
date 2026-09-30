@@ -34,6 +34,7 @@ signals:
 private slots:
     void onDeviceBscan(const voctv::BScanFrame &frame);
     void deliverPending();
+    void onDeviceFinished(voctv::Mode mode);
 
 private:
     template <typename F> void onDevice(F &&fn);
@@ -42,6 +43,7 @@ private:
     IDevice *device_;
     std::optional<BScanFrame> pending_;
     bool deliveryScheduled_ = false;
+    bool lossless_ = false;  // volume slices are all kept; live views use latest-wins
     int dropped_ = 0;
 };
 

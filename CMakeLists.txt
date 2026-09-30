@@ -10,6 +10,7 @@ add_library(voctv_core STATIC
     src/core/TissueModel.h src/core/TissueModel.cpp
     src/device/IDevice.h
     src/device/SimulatedVoctvDevice.h src/device/SimulatedVoctvDevice.cpp
+    src/app/AcquisitionController.h src/app/AcquisitionController.cpp
 )
 target_include_directories(voctv_core PUBLIC src)
 target_link_libraries(voctv_core PUBLIC Qt6::Core Qt6::Gui)
@@ -23,3 +24,4 @@ endfunction()
 voctv_test(tst_types)
 voctv_test(tst_tissuemodel)
 voctv_test(tst_device)
+voctv_test(tst_controller)

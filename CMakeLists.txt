@@ -7,6 +7,7 @@ qt_standard_project_setup()
 
 add_library(voctv_core STATIC
     src/core/Types.h src/core/Types.cpp
+    src/core/TissueModel.h src/core/TissueModel.cpp
 )
 target_include_directories(voctv_core PUBLIC src)
 target_link_libraries(voctv_core PUBLIC Qt6::Core Qt6::Gui)
@@ -18,3 +19,4 @@ function(voctv_test name)
     add_test(NAME ${name} COMMAND ${name})
 endfunction()
 voctv_test(tst_types)
+voctv_test(tst_tissuemodel)

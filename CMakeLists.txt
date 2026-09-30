@@ -16,6 +16,16 @@ add_library(voctv_core STATIC
 target_include_directories(voctv_core PUBLIC src)
 target_link_libraries(voctv_core PUBLIC Qt6::Core Qt6::Gui)
 
+qt_add_executable(voctv-console WIN32
+    src/main.cpp
+    src/ui/Theme.h src/ui/Theme.cpp
+    src/ui/BScanView.h src/ui/BScanView.cpp
+    src/ui/PlotViews.h src/ui/PlotViews.cpp
+    src/ui/VolumeView.h src/ui/VolumeView.cpp
+    src/ui/MainWindow.h src/ui/MainWindow.cpp
+)
+target_link_libraries(voctv-console PRIVATE voctv_core Qt6::Widgets Qt6::Charts Qt6::DataVisualization)
+
 enable_testing()
 function(voctv_test name)
     add_executable(${name} tests/${name}.cpp)
